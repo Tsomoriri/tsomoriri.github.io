@@ -142,7 +142,92 @@ function switchDarkLightMode() {
     }
     }
 }
-  
+// Get the canvas element
+const canvas = document.getElementById('background-canvas');
+const ctx = canvas.getContext('2d');
+
+// Set the canvas size to match the window size
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Create an array to store the particles
+const particles = [];
+
+// Create a function to generate random particles
+function createParticle(x, y) {
+  return {
+    x: x,
+    y: y,
+    radius: Math.random() * 5 + 1,
+    opacity: Math.random(),
+    vx: Math.random() * 2 - 1,
+    vy: Math.random() * 2 - 1,
+  };
+}
+
+// Create a function to update the particles
+function updateParticles() {
+  for (let i = 0; i < particles.length; i++) {
+    const particle = particles[i];
+    particle.x += particle.vx;
+    particle.y += particle.vy;
+    particle.opacity -= 0.01;
+
+    // Remove the particle if it's no longer visible
+    if (particle.opacity <= 0) {
+      particles.splice(i, 1);
+      i--;
+    }
+  }
+}
+
+// Create a function to draw the particles
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < particles.length; i++) {
+    const particle = particles[i];
+    const gradient = ctx.createRadialGradient(
+      particle.x,
+      particle.y,
+      0,
+      particle.x,
+      particle.y,
+      particle.radius
+    );
+    gradient.addColorStop(0, `rgba(255, 255, 255, ${particle.opacity})`);
+    gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+
+    ctx.beginPath();
+    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+    ctx.fillStyle = gradient;
+    ctx.fill();
+  }
+}
+
+// Create a function to handle mouse movement
+function handleMouseMove(event) {
+  const x = event.clientX;
+  const y = event.clientY;
+
+  // Create new particles at the mouse position
+  for (let i = 0; i < 5; i++) {
+    particles.push(createParticle(x, y));
+  }
+}
+
+// Add event listener for mouse movement
+document.addEventListener('mousemove', handleMouseMove);
+
+// Animation loop
+function animate() {
+  updateParticles();
+  drawParticles();
+  requestAnimationFrame(animate);
+}
+
+// Start the animation
+animate();  
 
 
 switchDarkLightMode();
