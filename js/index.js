@@ -195,8 +195,9 @@ function drawParticles() {
       particle.y,
       particle.radius
     );
-    gradient.addColorStop(0, `rgba(255, 255, 255, ${particle.opacity})`);
-    gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+    gradient.addColorStop(0, `rgba(255, 0, 255, ${particle.opacity})`); // magenta at full opacity
+    gradient.addColorStop(1, `rgba(255, 255, 255, 0)`); // magenta fades to transparent
+
 
     ctx.beginPath();
     ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
