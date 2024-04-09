@@ -403,9 +403,13 @@ article li {
   justify-content: space-evenly;
   padding-right: 2em;
 }
+#projects-wrapper > div h3 {
+  color: color-mix(in srgb, medium percentage, rgb(136, 183, 236) percentage);
+}
+
 #projects-wrapper > div h3 em {
   font-size: 0.7em;
-  font-weight: 400;
+  font-weight: 100;
   word-wrap: none;
   white-space: nowrap;
 }
